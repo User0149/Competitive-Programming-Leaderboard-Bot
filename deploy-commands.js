@@ -6,9 +6,6 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
-const clientId = config.clientId;
-const token = config.token;
-
 const commands = [];
 
 const __filename = fileURLToPath(import.meta.url);
@@ -33,13 +30,13 @@ for (const folder of commandFolders) {
     }
 }
 
-const rest = new REST().setToken(token);
+const rest = new REST().setToken(config.token);
 
 (async () => {
 	try {
 		console.log(`Started refreshing ${commands.length} application (/) commands.`);
 
-		const data = await rest.put(Routes.applicationCommands(clientId), { body: commands });
+		const data = await rest.put(Routes.applicationCommands(config.clientId), { body: commands });
 
 		console.log(`Successfully reloaded ${data.length} application (/) commands.`);
 	} catch (error) {

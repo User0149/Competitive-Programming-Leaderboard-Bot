@@ -2,19 +2,18 @@
 import { Client, Collection, Events, GatewayIntentBits, MessageFlags } from "discord.js";
 
 import config from "./config.json" with { type: "json" };
+import { connectToDatabase } from "./database.js";
 
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
+// allow bot to access leaderboard database
+connectToDatabase();
+
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
-client.once(Events.ClientReady, (readyClient) => {
-	console.log(`Ready! Logged in as ${readyClient.user.tag}`);
-});
-
-client.login(config.token);
-
+// add slash commands
 client.commands = new Collection();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -39,6 +38,7 @@ for (const folder of commandFolders) {
 	}
 }
 
+// handle slash commands
 client.on(Events.InteractionCreate, async (interaction) => {
 	if (!interaction.isChatInputCommand()) return; 
 	console.log(interaction);
@@ -65,3 +65,9 @@ client.on(Events.InteractionCreate, async (interaction) => {
 		}
 	}
 });
+
+// login to bot
+client.once(Events.ClientReady, (readyClient) => {
+	console.log(`Ready! Logged in as ${readyClient.user.tag}`);
+});
+client.login(config.token);

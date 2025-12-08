@@ -1,6 +1,7 @@
 {
   "name": "competitive-programming-leaderboard",
   "version": "1.0.0",
+  "type": "module",
   "description": "A Discord Bot that provides a leaderboard for competitive programming contests.",
   "main": "index.js",
   "scripts": {
@@ -11,6 +12,7 @@
   "license": "ISC",
   "packageManager": "pnpm@10.24.0",
   "dependencies": {
-    "discord.js": "^14.25.1"
+    "discord.js": "^14.25.1",
+    "mongodb": "^7.0.0"
   }
 }
