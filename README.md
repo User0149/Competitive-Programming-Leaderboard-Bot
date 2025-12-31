@@ -10,5 +10,7 @@ To run the server for the bot locally:
     1. `discordBotClientId`, storing the bot's application ID, found under `General Information` on the Application Settings page.
     1. `mongoUsername`, storing the username for your MongoDB cluster.
     1. `mongoPassword`, storing the password for your cluster.
-1. Run `pnpm deploy-commands` to deploy slash commands for the bot.
-1. Run `pnpm start` to start the server. The bot should now be online!
+1. Install dependencies and start the bot
+    1. Run `pnpm install` to install all dependencies.
+    1. Run `pnpm deploy-commands` to deploy slash commands for the bot.
+    1. Run `pnpm start` to start the server. The bot should now be online!
