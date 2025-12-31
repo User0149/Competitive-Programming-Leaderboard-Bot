@@ -37,7 +37,7 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
 		problems: contestProblems
 	});
 
-	await interaction.reply(`Created contest.\nName: \`${contestName}\`\nProblems: \`${contestProblems}\``);
+	await interaction.reply(`Created contest.\nName: \`${contestName}\`\nProblems: \`${contestProblems}\`.`);
 };
 
 export default {
