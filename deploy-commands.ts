@@ -30,13 +30,13 @@ for (const folder of commandFolders) {
     }
 }
 
-const rest = new REST().setToken(config.token);
+const rest = new REST().setToken(config.discordBotToken);
 
 (async () => {
 	try {
 		console.log(`Started refreshing ${commands.length} application (/) commands.`);
 
-		const data: any = await rest.put(Routes.applicationCommands(config.clientId), { body: commands });
+		const data: any = await rest.put(Routes.applicationCommands(config.discordBotClientId), { body: commands });
 
 		console.log(`Successfully reloaded ${data.length} application (/) commands.`);
 	} catch (error) {
