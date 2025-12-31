@@ -32,7 +32,7 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
 	}
 
 	// create a document with the contest metadata
-	db.collection(contestName).insertOne({
+	await db.collection(contestName).insertOne({
 		name: contestName,
 		problems: contestProblems
 	});
