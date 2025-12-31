@@ -20,7 +20,7 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
 	const collections = await db.collections();
 	const collectionsNames = collections.map(collection => collection.collectionName);
 
-	await interaction.reply(`**Contests on ${guildName}**\n` + "```" + collectionsNames.join("\n") + "```");
+	await interaction.reply(`**Contests on ${guildName}**\n` + "```\n" + collectionsNames.join("\n") + "```");
 };
 
 export default {
