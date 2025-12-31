@@ -14,5 +14,8 @@
   "dependencies": {
     "discord.js": "^14.25.1",
     "mongodb": "^7.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
   }
 }
