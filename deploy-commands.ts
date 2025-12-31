@@ -36,7 +36,7 @@ const rest = new REST().setToken(config.token);
 	try {
 		console.log(`Started refreshing ${commands.length} application (/) commands.`);
 
-		const data = await rest.put(Routes.applicationCommands(config.clientId), { body: commands });
+		const data: any = await rest.put(Routes.applicationCommands(config.clientId), { body: commands });
 
 		console.log(`Successfully reloaded ${data.length} application (/) commands.`);
 	} catch (error) {

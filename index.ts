@@ -2,7 +2,7 @@
 import { Client, Collection, Events, GatewayIntentBits, MessageFlags } from "discord.js";
 
 import config from "./config.json" with { type: "json" };
-import { connectToDatabase } from "./database";
+import { connectToDatabase } from "./database.ts";
 
 import fs from "fs";
 import path from "path";
