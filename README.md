@@ -1,4 +1,4 @@
-To run the server for the bot locally,
+To run the server for the bot locally:
 
 1. Set up the Discord Bot
     1. Go to the [Discord Developer Portal](https://discord.com/developers/applications) and create a new application.
