@@ -16,7 +16,7 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
 		throw new Error("Guild name is null.");
 	}
 
-	const db  = mongoClient.db(guildId);
+	const db = mongoClient.db(guildId);
 	const collections = await db.collections();
 	const collectionsNames = collections.map(collection => collection.collectionName);
 
