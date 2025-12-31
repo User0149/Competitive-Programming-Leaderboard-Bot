@@ -16,7 +16,7 @@ const commandFolders = fs.readdirSync(foldersPath);
 
 for (const folder of commandFolders) {
     const commandsPath = path.join(foldersPath, folder);
-    const commandFiles = fs.readdirSync(commandsPath).filter((file) => file.endsWith('.js'));
+    const commandFiles = fs.readdirSync(commandsPath).filter((file) => file.endsWith('.ts'));
     for (const file of commandFiles) {
         const filePath = path.join(commandsPath, file);
         const commandModule = await import(`file://${filePath}`);
@@ -24,7 +24,7 @@ for (const folder of commandFolders) {
         // Set a new item in the Collection with the key as the command name and the value as the exported module
         if ('data' in command && 'execute' in command) {
             commands.push(command.data.toJSON());
-        } else {
+        } else {0
             console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
         }
     }
