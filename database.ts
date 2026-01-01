@@ -2,13 +2,7 @@ import { MongoClient, ServerApiVersion } from "mongodb";
 
 import config from "./config.json" with { type: "json" };
 
-export const mongoClient = new MongoClient(config.mongoConnectionString, {
-    serverApi: {
-        version: ServerApiVersion.v1,
-        strict: true,
-        deprecationErrors: true,
-    }
-});
+export const mongoClient = new MongoClient(config.mongoConnectionString); // don't use stable api as we need all features and don't want to pay
 
 export async function connectToDatabase() {
     try {
