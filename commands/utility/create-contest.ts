@@ -27,7 +27,7 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
 	const db = mongoClient.db(guildId);
 	if ((await db.collections()).some(collection => collection.collectionName === contestName)) {
 		// this contest already exists
-		await interaction.reply("A contest with the same name already exists.");
+		await interaction.reply(`A contest with the name \`${contestName}\` already exists.`);
 		return;
 	}
 

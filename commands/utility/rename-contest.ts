@@ -27,7 +27,7 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
 	const db = mongoClient.db(guildId);
 	if (!(await db.collections()).some(collection => collection.collectionName === oldContestName)) {
 		// contest doesn't exist
-		await interaction.reply(`A contest with the the name ${oldContestName} does not exist.`);
+		await interaction.reply(`A contest with the the name \`${oldContestName}\` does not exist.`);
 		return;
 	}
 
@@ -37,7 +37,7 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
 	}
 
 	// update the contest name
-    await db.renameCollection(oldContestName, newContestName);
+    await db.collection(oldContestName).rename(newContestName);
     await db.collection(newContestName).updateOne({ name: { $exists: true } }, { $set: { name: newContestName } });
 
 	await interaction.reply(`Renamed contest \`${oldContestName}\` to \`${newContestName}\`.`);
