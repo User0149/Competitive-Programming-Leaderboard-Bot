@@ -1,5 +1,6 @@
 import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
 import { mongoClient } from "../../database.ts";
+import { Contest } from "../../types/types.ts";
 
 const data = new SlashCommandBuilder()
 	.setName("create-contest")
@@ -32,9 +33,10 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
 	}
 
 	// create a document with the contest metadata
-	await db.collection(contestName).insertOne({
+	await db.collection<Contest>(contestName).insertOne({
 		name: contestName,
-		problems: contestProblems
+		problems: contestProblems,
+		leaderboard: []
 	});
 
 	await interaction.reply(`Created contest.\nName: \`${contestName}\`\nProblems: \`${contestProblems}\`.`);

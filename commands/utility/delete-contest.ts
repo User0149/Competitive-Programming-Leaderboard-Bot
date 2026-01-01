@@ -27,7 +27,7 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
 	}
 
 	// delete the contest collection
-    await db.collection(contestName).drop();
+    await db.dropCollection(contestName);
 
 	await interaction.reply(`Deleted contest \`${contestName}\`.`);
 };

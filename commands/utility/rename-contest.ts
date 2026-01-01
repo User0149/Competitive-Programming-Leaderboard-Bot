@@ -1,5 +1,6 @@
 import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
 import { mongoClient } from "../../database.ts";
+import { Contest } from "../../types/types.ts";
 
 const data = new SlashCommandBuilder()
 	.setName("rename-contest")
@@ -37,8 +38,8 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
 	}
 
 	// update the contest name
-    await db.collection(oldContestName).rename(newContestName);
-    await db.collection(newContestName).updateOne({ name: { $exists: true } }, { $set: { name: newContestName } });
+    await db.collection<Contest>(oldContestName).rename(newContestName);
+    await db.collection<Contest>(newContestName).updateOne({ name: { $exists: true } }, { $set: { name: newContestName } });
 
 	await interaction.reply(`Renamed contest \`${oldContestName}\` to \`${newContestName}\`.`);
 };
