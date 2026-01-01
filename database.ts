@@ -2,9 +2,7 @@ import { MongoClient, ServerApiVersion } from "mongodb";
 
 import config from "./config.json" with { type: "json" };
 
-const uri = `mongodb+srv://${config.mongoUsername}:${config.mongoPassword}@cp-leaderboard-bot.b8olmtf.mongodb.net/?appName=cp-leaderboard-bot`;
-
-export const mongoClient = new MongoClient(uri, {
+export const mongoClient = new MongoClient(config.mongoConnectionString, {
     serverApi: {
         version: ServerApiVersion.v1,
         strict: true,
