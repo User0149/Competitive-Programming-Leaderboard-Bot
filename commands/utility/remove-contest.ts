@@ -5,15 +5,15 @@ import { leaderboardDb } from "../../database.ts";
 import type { Contest, ContestantScores } from "../../types/types.ts";
 
 const data = new SlashCommandBuilder()
-	.setName("delete-contest")
-	.setDescription("Delete a contest")
-    .addStringOption((option) => option.setName("name").setDescription("The name of the contest").setRequired(true))
+	.setName("remove-contest")
+	.setDescription("Remove a contest")
+    .addStringOption((option) => option.setName("contest-name").setDescription("The name of the contest").setRequired(true))
 
 const execute = async (interaction: ChatInputCommandInteraction) => {
 	const guildId = interaction.guildId;
 
 	const interactionOptions = interaction.options;
-	const contestName = interactionOptions.getString("name");
+	const contestName = interactionOptions.getString("contest-name");
 
 	if (!guildId) {
 		throw new Error("Guild ID is null.");
@@ -41,7 +41,7 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
 	// delete all scores in this guild with that belong to this contest
 	await scoresCollection.deleteMany({ guildId, contestId });
 
-	await interaction.reply(`Deleted contest \`${contestName}\`.`);
+	await interaction.reply(`Removed contest \`${contestName}\` from this server.`);
 };
 
 export default {

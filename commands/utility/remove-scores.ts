@@ -13,7 +13,7 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
 	const userId = interaction.user.id;
 
 	const interactionOptions = interaction.options;
-	const contestName = interactionOptions.getString("name");
+	const contestName = interactionOptions.getString("contest-name");
 
 	if (!guildId) {
 		throw new Error("Guild ID is null.");

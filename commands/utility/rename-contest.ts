@@ -7,15 +7,15 @@ import type { Contest } from "../../types/types.ts";
 const data = new SlashCommandBuilder()
 	.setName("rename-contest")
 	.setDescription("Rename a contest")
-    .addStringOption((option) => option.setName("old-name").setDescription("The existing name of the contest").setRequired(true))
-    .addStringOption((option) => option.setName("new-name").setDescription("The new name of the contest").setRequired(true))
+    .addStringOption((option) => option.setName("old-contest-name").setDescription("The existing name of the contest").setRequired(true))
+    .addStringOption((option) => option.setName("new-contest-name").setDescription("The new name of the contest").setRequired(true))
 
 const execute = async (interaction: ChatInputCommandInteraction) => {
 	const guildId = interaction.guildId;
 
 	const interactionOptions = interaction.options;
-	const oldContestName = interactionOptions.getString("old-name");
-	const newContestName = interactionOptions.getString("new-name");
+	const oldContestName = interactionOptions.getString("old-contest-name");
+	const newContestName = interactionOptions.getString("new-contest-name");
 
 	if (!guildId) {
 		throw new Error("Guild ID is null.");

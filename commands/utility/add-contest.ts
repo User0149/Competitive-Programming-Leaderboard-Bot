@@ -5,16 +5,16 @@ import { leaderboardDb } from "../../database.ts";
 import type { Contest } from "../../types/types.ts";
 
 const data = new SlashCommandBuilder()
-	.setName("create-contest")
-	.setDescription("Create a new contest")
-    .addStringOption((option) => option.setName("name").setDescription("The name of the contest").setRequired(true))
+	.setName("add-contest")
+	.setDescription("Add a new contest to this server")
+    .addStringOption((option) => option.setName("contest-name").setDescription("The name of the contest").setRequired(true))
     .addIntegerOption((option) => option.setName("problems").setDescription("Number of problems in the contest").setMinValue(1).setRequired(true));
 
 const execute = async (interaction: ChatInputCommandInteraction) => {
 	const guildId = interaction.guildId;
 
 	const interactionOptions = interaction.options;
-	const contestName = interactionOptions.getString("name");
+	const contestName = interactionOptions.getString("contest-name");
 	const contestProblems = interactionOptions.getInteger("problems");
 
 	if (!guildId) {
@@ -42,7 +42,7 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
 		problems: contestProblems
 	});
 
-	await interaction.reply(`Created contest.\nName: \`${contestName}\`\nProblems: \`${contestProblems}\`.`);
+	await interaction.reply(`Added contest.\nName: \`${contestName}\`\nProblems: \`${contestProblems}\`.`);
 };
 
 export default {
