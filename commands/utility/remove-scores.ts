@@ -6,7 +6,7 @@ import type { Contest, ContestantScores } from "../../types/types.ts";
 const data = new SlashCommandBuilder()
 	.setName("remove-scores")
 	.setDescription("Remove your scores for a contest")
-    .addStringOption((option) => option.setName("name").setDescription("The name of the contest").setRequired(true))
+    .addStringOption((option) => option.setName("contest-name").setDescription("The name of the contest").setRequired(true))
 
 const execute = async (interaction: ChatInputCommandInteraction) => {
 	const guildId = interaction.guildId;
@@ -43,7 +43,7 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
 	// remove scores
 	await scoresCollection.deleteOne({ userId, guildId, contestId });
 
-	await interaction.reply(`Deleted your scores for contest \`${contestName}\`.`);
+	await interaction.reply(`Removed your scores for contest \`${contestName}\`.`);
 };
 
 export default {
