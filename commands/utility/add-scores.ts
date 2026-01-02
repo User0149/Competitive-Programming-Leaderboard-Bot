@@ -57,7 +57,7 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
 	}
 	else {
 		// update current scores
-		scoresCollection.updateOne({ userId, guildId, contestId }, {$set: { scores, totalScore }});
+		scoresCollection.updateOne({ userId, guildId, contestId }, {$set: { scores }});
 	}
 
 	await interaction.reply(`Added your scores to contest \`${contestName}\`.`);
