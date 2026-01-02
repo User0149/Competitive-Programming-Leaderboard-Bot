@@ -40,7 +40,8 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
         replyString += `<@${contestantScores.userId}> — ${contestantScores.totalScore} \n`;
     }
 
-	await interaction.reply(replyString);
+	await interaction.reply(`Leaderboard for **${contestName}**...`);
+    await interaction.editReply(replyString);
 };
 
 export default {
