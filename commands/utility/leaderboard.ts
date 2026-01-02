@@ -37,7 +37,7 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
 
     let replyString = `Leaderboard for **${contestName}**\n`;
     for (const contestantScores of contestScores) {
-        replyString += `<@${contestantScores.userId}> — ${contestantScores.totalScore} \n`;
+        replyString += `<@${contestantScores.userId}> — **${contestantScores.totalScore}** (${contestantScores.scores.join(" / ")})\n`;
     }
 
 	await interaction.reply(`Leaderboard for **${contestName}**...`);
