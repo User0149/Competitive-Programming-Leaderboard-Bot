@@ -1,5 +1,6 @@
 import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
-import { mongoClient } from "../../database.ts";
+import { leaderboardDb } from "../../database.ts";
+import type { Contest } from "../../types/types.ts";
 
 const data = new SlashCommandBuilder()
 	.setName("contests")
@@ -16,11 +17,11 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
 		throw new Error("Guild name is null.");
 	}
 
-	const db = mongoClient.db(guildId);
-	const collections = await db.collections();
-	const collectionsNames = collections.map(collection => collection.collectionName);
+	const contestsCollection = leaderboardDb.collection<Contest>("contests");
+	const contestsOnServer = contestsCollection.find({ guildId }, { name: 1 });
+	const contestNames = await contestsOnServer.map(contest => contest.name).toArray();
 
-	await interaction.reply(`**Contests on ${guildName}**\n` + "```\n" + collectionsNames.join("\n") + "```");
+	await interaction.reply(`**Contests on ${guildName}**\n` + "```\n" + contestNames.join("\n") + "```");
 };
 
 export default {

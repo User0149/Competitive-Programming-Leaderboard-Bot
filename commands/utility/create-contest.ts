@@ -1,6 +1,7 @@
 import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
-import { mongoClient } from "../../database.ts";
-import { Contest } from "../../types/types.ts";
+import { leaderboardDb } from "../../database.ts";
+
+import type { Contest } from "../../types/types.ts";
 
 const data = new SlashCommandBuilder()
 	.setName("create-contest")
@@ -25,18 +26,19 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
 		throw new Error("Contest problems is null.");
 	}
 
-	const db = mongoClient.db(guildId);
-	if ((await db.collections()).some(collection => collection.collectionName === contestName)) {
+	const contestsCollection = leaderboardDb.collection<Contest>("contests");
+
+	if (await contestsCollection.findOne({ name: contestName, guildId }) !== null) {
 		// this contest already exists
 		await interaction.reply(`A contest with the name \`${contestName}\` already exists.`);
 		return;
 	}
 
 	// create a document with the contest metadata
-	await db.collection<Contest>(contestName).insertOne({
+	await contestsCollection.insertOne({
 		name: contestName,
-		problems: contestProblems,
-		leaderboard: []
+		guildId,
+		problems: contestProblems
 	});
 
 	await interaction.reply(`Created contest.\nName: \`${contestName}\`\nProblems: \`${contestProblems}\`.`);

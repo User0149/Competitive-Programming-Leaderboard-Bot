@@ -1,6 +1,7 @@
 import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
-import { mongoClient } from "../../database.ts";
-import { Contest } from "../../types/types.ts";
+import { leaderboardDb } from "../../database.ts";
+
+import type { Contest } from "../../types/types.ts";
 
 const data = new SlashCommandBuilder()
 	.setName("rename-contest")
@@ -25,8 +26,9 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
 		throw new Error("New contest name is null.");
 	}
 
-	const db = mongoClient.db(guildId);
-	if (!(await db.collections()).some(collection => collection.collectionName === oldContestName)) {
+	const contestsCollection = leaderboardDb.collection<Contest>("contests");
+
+	if (await contestsCollection.findOne({ name: oldContestName, guildId }) === null) {
 		// contest doesn't exist
 		await interaction.reply(`A contest with the the name \`${oldContestName}\` does not exist.`);
 		return;
@@ -38,8 +40,7 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
 	}
 
 	// update the contest name
-    await db.collection<Contest>(oldContestName).rename(newContestName);
-    await db.collection<Contest>(newContestName).updateOne({ name: { $exists: true } }, { $set: { name: newContestName } });
+    await contestsCollection.updateOne({ name: oldContestName, guildId }, { $set: { name: newContestName } });
 
 	await interaction.reply(`Renamed contest \`${oldContestName}\` to \`${newContestName}\`.`);
 };

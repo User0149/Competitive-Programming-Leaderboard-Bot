@@ -1,10 +1,12 @@
 export interface Contest {
     name: string;
+    guildId: string;
     problems: number;
-    leaderboard: ContestantScores[];
 };
 
 export interface ContestantScores {
     userId: string;
+    guildId: string;
+    contestId: string;
     scores: number[];
 };

@@ -1,5 +1,7 @@
 import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
-import { mongoClient } from "../../database.ts";
+import { leaderboardDb } from "../../database.ts";
+
+import type { Contest, ContestantScores } from "../../types/types.ts";
 
 const data = new SlashCommandBuilder()
 	.setName("delete-contest")
@@ -19,15 +21,24 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
 		throw new Error("Contest name is null.");
 	}
 
-	const db = mongoClient.db(guildId);
-	if (!(await db.collections()).some(collection => collection.collectionName === contestName)) {
+	const contestsCollection = leaderboardDb.collection<Contest>("contests");
+	const scoresCollection = leaderboardDb.collection<ContestantScores>("scores");
+
+	const contestDocument = await contestsCollection.findOne({ name: contestName, guildId });
+
+	if (contestDocument === null) {
 		// contest doesn't exist
 		await interaction.reply(`A contest with the the name \`${contestName}\` does not exist.`);
 		return;
 	}
 
-	// delete the contest collection
-    await db.dropCollection(contestName);
+	const contestId = contestDocument._id.toString();
+
+	// delete the contest
+    await contestsCollection.deleteOne({ name: contestName, guildId });
+
+	// delete all scores in this guild with that belong to this contest
+	await scoresCollection.deleteMany({ guildId, contestId });
 
 	await interaction.reply(`Deleted contest \`${contestName}\`.`);
 };
