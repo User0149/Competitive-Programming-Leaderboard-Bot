@@ -20,7 +20,7 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
 	}
 
 	const contestsCollection = leaderboardDb.collection<Contest>("contests");
-	const contestsOnServer = contestsCollection.find({ guildId }, { name: 1 });
+	const contestsOnServer = contestsCollection.find({ guildId }).project({ name: 1 });
 	const contestNames = await contestsOnServer.map(contest => contest.name).toArray();
 
 	await interaction.reply(`**Contests on ${guildName}**\n` + "```\n" + contestNames.join("\n") + "```");
