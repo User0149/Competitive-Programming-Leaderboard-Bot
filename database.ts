@@ -2,7 +2,7 @@ import { MongoClient } from "mongodb";
 
 import config from "./config.json" with { type: "json" };
 
-import { Contest, ContestantScores } from "./types/types";
+import type { Contest, ContestantScores } from "./types/types";
 
 const mongoClient = new MongoClient(config.mongoConnectionString); // don't use stable api as we need all features and don't want to pay
 

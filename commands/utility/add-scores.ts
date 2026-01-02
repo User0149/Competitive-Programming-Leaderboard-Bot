@@ -6,7 +6,7 @@ import type { Contest, ContestantScores } from "../../types/types.ts";
 const data = new SlashCommandBuilder()
 	.setName("add-scores")
 	.setDescription("Add your scores for a contest")
-    .addStringOption((option) => option.setName("name").setDescription("The name of the contest").setRequired(true))
+    .addStringOption((option) => option.setName("contest-name").setDescription("The name of the contest").setRequired(true))
     .addStringOption((option) => option.setName("scores").setDescription("Your scores for each problem, separated by '/' (e.g., 58/100/41)").setRequired(true))
 
 const execute = async (interaction: ChatInputCommandInteraction) => {
@@ -14,7 +14,7 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
 	const userId = interaction.user.id;
 
 	const interactionOptions = interaction.options;
-	const contestName = interactionOptions.getString("name");
+	const contestName = interactionOptions.getString("contest-name");
     const scores = interactionOptions.getString("scores")?.split("/").map(score => Number(score));
 
 	if (!guildId) {
