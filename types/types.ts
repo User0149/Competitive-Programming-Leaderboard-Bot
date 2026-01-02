@@ -8,5 +8,7 @@ export interface ContestantScores {
     userId: string;
     guildId: string;
     contestId: string;
+
+    totalScore: number;
     scores: number[];
 };

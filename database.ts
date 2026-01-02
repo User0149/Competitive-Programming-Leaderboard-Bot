@@ -13,7 +13,8 @@ async function ensureIndexes() {
     const scoresCollection = leaderboardDb.collection<ContestantScores>("scores");
 
     await contestsCollection.createIndex({ guildID: 1, name: 1 });
-    await scoresCollection.createIndex({ userID: 1, guildID: 1, contestID: 1 });
+    await scoresCollection.createIndex({ guildID: 1, contestID: 1, userID: 1 });
+    await scoresCollection.createIndex({ guildID: 1, contestID: 1, totalScore: -1 });
 }
 
 export async function connectToDatabase() {

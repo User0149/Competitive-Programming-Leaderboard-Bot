@@ -1,4 +1,5 @@
 import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
+
 import { leaderboardDb } from "../../database.ts";
 
 import type { Contest, ContestantScores } from "../../types/types.ts";
@@ -47,10 +48,12 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
         return;
 	}
 
+	const totalScore = scores.reduce((total, val) => total + val);
+
 	// add scores
 	if (await scoresCollection.findOne({ userId, guildId, contestId }) === null) {
 		// don't already have scores for this contest
-		scoresCollection.insertOne({ userId, guildId, contestId, scores});
+		scoresCollection.insertOne({ userId, guildId, contestId, totalScore, scores});
 	}
 	else {
 		// update current scores

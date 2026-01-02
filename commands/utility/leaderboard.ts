@@ -1,17 +1,16 @@
-import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
+import { ChatInputCommandInteraction, Message, SlashCommandBuilder } from "discord.js";
 
 import { leaderboardDb } from "../../database.ts";
 
 import type { Contest, ContestantScores } from "../../types/types.ts";
 
 const data = new SlashCommandBuilder()
-	.setName("remove-scores")
-	.setDescription("Remove your scores for a contest")
+	.setName("leaderboard")
+	.setDescription("See the leaderboard for a contest")
     .addStringOption((option) => option.setName("contest-name").setDescription("The name of the contest").setRequired(true))
 
 const execute = async (interaction: ChatInputCommandInteraction) => {
 	const guildId = interaction.guildId;
-	const userId = interaction.user.id;
 
 	const interactionOptions = interaction.options;
 	const contestName = interactionOptions.getString("contest-name");
@@ -34,17 +33,14 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
 	}
 
 	const contestId = contestDocument._id.toString();
+    const contestScores = await scoresCollection.find({ guildId, contestId }).sort({ totalScore: -1 }).toArray();
 
-	if (await scoresCollection.findOne({ userId, guildId, contestId }) === null) {
-		// scores for this contest don't exist
-		await interaction.reply(`You don't have scores for contest \`${contestName}\` on this server.`);
-		return;
-	}
+    let replyString = `Leaderboard for **${contestName}**\n`;
+    for (const contestantScores of contestScores) {
+        replyString += `<@${contestantScores.userId}> — ${contestantScores.totalScore} \n`;
+    }
 
-	// remove scores
-	await scoresCollection.deleteOne({ userId, guildId, contestId });
-
-	await interaction.reply(`Removed your scores for contest \`${contestName}\`.`);
+	await interaction.reply(replyString);
 };
 
 export default {
