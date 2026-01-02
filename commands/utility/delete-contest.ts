@@ -1,4 +1,5 @@
 import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
+
 import { leaderboardDb } from "../../database.ts";
 
 import type { Contest, ContestantScores } from "../../types/types.ts";
