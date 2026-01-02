@@ -43,7 +43,7 @@ const execute = async (interaction: ChatInputCommandInteraction) => {
 	const contestProblems = contestDocument.problems;
 
 	if (scores.length !== contestProblems) {
-		await interaction.reply(`Contest \`${contestName}\` has \`${contestProblems}\` problems!`);
+		await interaction.reply(`Contest \`${contestName}\` has \`${contestProblems}\` problem${contestProblems > 1 ? "s" : ""}!`);
         return;
 	}
 
